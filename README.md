@@ -107,4 +107,4 @@ in having its `TODO [STUDY]` markers resolved:
 
 ## License
 
-GNU GPL v3.0, matching the other report-family repos in this workspace.
+Copyright 2026 Duke University. All Rights Reserved. The software is hereby licensed under the GNU GPL License v2 (see [LICENSE](LICENSE)).
