@@ -1,8 +1,8 @@
 # omop-report-template
 
 GitHub template repository for a **bucket-3b report repo** — one study's Word
-manuscript report composition, rendered from result artifacts only, in the
-Duke Vascular Informatics workspace.
+manuscript report composition, rendered from result artifacts only, in a
+[charon](https://github.com/Duke-Vascular-Informatics/charon)-based workspace.
 
 Use this when you need a `<study>-report` repo: which tables, which figures,
 and the clinical narrative for one study's manuscript, consuming
@@ -23,11 +23,11 @@ separation is load-bearing rather than a style preference.
 
 | Bucket | Repo | Contents |
 |---|---|---|
-| 1 — synth | `<study>-synth` | Synthea module + ETL for one synthetic dataset |
-| 2 — analysis-core | `<study>` (from [`strategus-study-template`](https://github.com/Duke-Vascular-Informatics/strategus-study-template) or, legacy, [`synthea-omop-template`](https://github.com/Duke-Vascular-Informatics/synthea-omop-template)) | Cohorts, analysis spec, the extract layer. **No report content of any kind.** |
+| 1 — synth | `<study>-synth` (from [`synthea-omop-template`](https://github.com/Duke-Vascular-Informatics/synthea-omop-template)) | Synthea module + ETL for one synthetic dataset |
+| 2 — analysis-core | `<study>` (from [`strategus-study-template`](https://github.com/Duke-Vascular-Informatics/strategus-study-template)) | Cohorts, analysis spec, the extract layer. **No report content of any kind.** |
 | 3 — report-toolkit | [`omop-report-toolkit`](https://github.com/Duke-Vascular-Informatics/omop-report-toolkit) | Generic figure/table helpers only. Nothing study-specific. |
 | **3b — report-repo** | **`<study>-report`, from this template** | **One study's report composition — which tables, which figures, the narrative.** |
-| 4 — site-deploy | `duke-prcc-deploy` (Duke GitLab only) | Bundle builder, PRCC specifics |
+| 4 — site-deploy | `<your-site>-deploy` (your institution's own; no template) | Bundle builder and secure-environment specifics |
 
 A repo built from this template pairs with exactly one bucket-2 analysis-core
 repo (named `<study>-report` next to `<study>`) and consumes bucket 3 for
