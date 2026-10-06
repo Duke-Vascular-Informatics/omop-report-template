@@ -104,6 +104,12 @@ in having its `TODO [STUDY]` markers resolved:
   every run — silently believing synthetic numbers are a real result is the
   expensive failure mode this template is built to prevent.
 
+## Funding
+
+Research reported in this publication was supported by the National Center For Advancing Translational Sciences of the National Institutes of Health under Award Number K12TR005435. The content is solely the responsibility of the authors and does not necessarily represent the official views of the National Institutes of Health.
+
+---
+
 ## License
 
 Copyright 2026 Duke University. All Rights Reserved. The software is hereby licensed under the GNU GPL License v2 (see [LICENSE](LICENSE)).
