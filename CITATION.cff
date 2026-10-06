@@ -1,0 +1,28 @@
+cff-version: 1.2.0
+message: "If you use this template in your research, please cite it using the metadata below."
+type: software
+title: "OMOP Report Template"
+abstract: >
+  A GitHub template repository for a study's manuscript-report repo: one
+  study's Word report composition (which tables, which figures, the narrative),
+  rendered from result artifacts only with no database connection, and
+  consuming omopReportToolkit for the generic figure and table helpers. Kept
+  separate from the analysis-core repository so the report can be shared and
+  rebuilt independently.
+authors:
+  - family-names: Johnson
+    given-names: Adam P.
+    name-suffix: MD, MPH
+    email: adam.johnson@duke.edu
+    orcid: https://orcid.org/0000-0002-3014-6372
+    affiliation: Duke University School of Medicine, Department of Surgery
+    # Secondary affiliation(s): Durham VA Medical Center
+    # CFF 1.2.0 does not support multiple affiliations per author entry.
+repository-code: "https://github.com/Duke-Vascular-Informatics/omop-report-template"
+license: GPL-2.0-only
+keywords:
+  - OMOP CDM
+  - OHDSI
+  - manuscript reporting
+  - reproducible research
+  - reusable template
