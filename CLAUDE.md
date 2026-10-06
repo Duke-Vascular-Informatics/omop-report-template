@@ -22,7 +22,7 @@ Shared baseline (applies first):
   query belongs in the sibling analysis-core repo's
   `R/extract_report_inputs.R` instead, writing a new CSV artifact this repo
   reads. This is the one rule that must never be broken — see
-  `docs/MIGRATION_PLAN_REPO_SPLIT.md` (in `omop-dev-workspace`) for why.
+  [charon's "Multi-Repo Analysis Pipeline" section](https://github.com/Duke-Vascular-Informatics/charon#multi-repo-analysis-pipeline) for why.
 - Consumes [`omopReportToolkit`](https://github.com/Duke-Vascular-Informatics/omop-report-toolkit)
   for generic figure styling and report helpers, pinned to a commit in
   `renv.lock` (never a branch). Bump it deliberately: `renv::install(...)`
