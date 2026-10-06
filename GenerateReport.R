@@ -8,7 +8,7 @@
 # credentials — this script must remain runnable on a laptop with nothing but
 # a clone of this repo and a results directory copied over (e.g. a Duke PRCC
 # export, or a local Strategus/synthea-omop-template run of your analysis-core
-# repo). See docs/MIGRATION_PLAN_REPO_SPLIT.md in omop-dev-workspace for why
+# repo). See charon's README ("Multi-Repo Analysis Pipeline") for why
 # this repo exists separately from the analysis-core repo (bucket 2).
 #
 # WHERE THE DATA COMES FROM — resolved in this order, first match wins:

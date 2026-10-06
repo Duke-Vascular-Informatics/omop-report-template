@@ -13,10 +13,9 @@ and the clinical narrative for one study's manuscript, consuming
 created from this template must remain runnable on a laptop with nothing but
 a clone of it and a `results/` directory copied over — no VPN, no
 credentials, no JDBC driver, no `DatabaseConnector`. See
-[`docs/MIGRATION_PLAN_REPO_SPLIT.md`](https://github.com/Duke-Vascular-Informatics/omop-dev-workspace/blob/main/docs/MIGRATION_PLAN_REPO_SPLIT.md)
-(in `omop-dev-workspace`) for why this is a separate repo from the analysis
-itself, and why that separation is load-bearing rather than a style
-preference.
+[charon's "Multi-Repo Analysis Pipeline" section](https://github.com/Duke-Vascular-Informatics/charon#multi-repo-analysis-pipeline)
+for why this is a separate repo from the analysis itself, and why that
+separation is load-bearing rather than a style preference.
 
 ---
 

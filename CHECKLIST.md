@@ -5,9 +5,9 @@ building now. **Path B** extracts an existing, already-in-analysis-repo
 report into its own bucket-3b repo from this template — the harder one, with
 `pad-amp-nhd-prog` → `pad-amp-nhd-prog-report` as the precedent.
 
-Read [docs/MIGRATION_PLAN_REPO_SPLIT.md](https://github.com/Duke-Vascular-Informatics/omop-dev-workspace/blob/main/docs/MIGRATION_PLAN_REPO_SPLIT.md)
-(in `omop-dev-workspace`) before either — especially the "load-bearing
-refactor: split extract from render" section.
+Read [charon's "Multi-Repo Analysis Pipeline" section](https://github.com/Duke-Vascular-Informatics/charon#multi-repo-analysis-pipeline)
+before either — especially its rule that the report repo never gains a database
+dependency (extract in the analysis repo, render here).
 
 ---
 
