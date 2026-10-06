@@ -6,8 +6,8 @@
 #
 # Renders from result artifacts only. No database connection, no VPN, no
 # credentials — this script must remain runnable on a laptop with nothing but
-# a clone of this repo and a results directory copied over (e.g. a Duke PRCC
-# export, or a local Strategus/synthea-omop-template run of your analysis-core
+# a clone of this repo and a results directory copied over (e.g. an export
+# archive from your secure analytic environment, or a local Strategus/synthea-omop-template run of your analysis-core
 # repo). See charon's README ("Multi-Repo Analysis Pipeline") for why
 # this repo exists separately from the analysis-core repo (bucket 2).
 #
@@ -16,16 +16,16 @@
 #   1. RESULTS_DIR, if set. An explicit path always wins; nothing below is
 #      consulted. Use this for one-off renders.
 #
-#   2. A .zip in prcc_data/ (gitignored). Drop a Duke PRCC export archive
-#      there and it is extracted to prcc_data/.extracted/ and rendered from.
-#      This is the normal way to render real Duke results: copy the approved
+#   2. A .zip in export_data/ (gitignored). Drop an export archive
+#      there and it is extracted to export_data/.extracted/ and rendered from.
+#      This is the normal way to render real results: copy the approved
 #      archive in, run this script, done. If several are present the one with
 #      the most recent RUN TIMESTAMP in its filename wins (YYYYMMDD-HHMMSS, as
-#      written by duke-prcc-deploy's export_results_for_review.R) -- NOT the
+#      written by your site-deploy repo's export step, e.g. export_results_for_review.R) -- NOT the
 #      newest file on disk, since re-copying an older export would otherwise
 #      select it. Extraction is redone whenever the selected archive changes.
 #
-#   3. Already-extracted content in prcc_data/ (i.e. you unzipped by hand).
+#   3. Already-extracted content in export_data/ (i.e. you unzipped by hand).
 #
 #   4. ANALYSIS_CORE_OUTPUT_DIR below — the synthetic dev-container run of
 #      your sibling analysis-core repo. This is the fallback, not the
@@ -44,7 +44,7 @@
 #                                  with several candidate models)
 # This is exactly the shape your analysis-core repo's own output/ folder
 # should have (see that repo's extract_report_inputs.R), and of a
-# duke-prcc-deploy export archive once unzipped.
+# site-deploy export archive once unzipped.
 #
 # USAGE
 #   Rscript GenerateReport.R                       # auto-resolve (see above)
@@ -58,7 +58,7 @@ if (file.exists("renv/activate.R")) source("renv/activate.R")
 # folder (the repo built from strategus-study-template or
 # synthea-omop-template). Keeping this a plain relative path — not an env
 # var — matches the assumption that the two repos are cloned as siblings
-# inside the same omop-dev-workspace folder.
+# inside the same workspace folder.
 ANALYSIS_CORE_OUTPUT_DIR <- file.path("..", "REPLACE_WITH_ANALYSIS_CORE_REPO", "output")
 
 # TODO [STUDY]: if your analysis splits results into per-model/per-score
@@ -69,8 +69,8 @@ ANALYSIS_CORE_OUTPUT_DIR <- file.path("..", "REPLACE_WITH_ANALYSIS_CORE_REPO", "
 # study has a single flat results directory with no per-model split.
 SCORE_SUBDIRS <- character(0)
 
-PRCC_DIR    <- "prcc_data"
-EXTRACT_DIR <- file.path(PRCC_DIR, ".extracted")
+EXPORT_DIR    <- "export_data"
+EXTRACT_DIR <- file.path(EXPORT_DIR, ".extracted")
 
 # A results directory is only usable if it has what every table and figure
 # needs. Checked before selecting a source rather than after, so a
@@ -108,15 +108,15 @@ EXTRACT_DIR <- file.path(PRCC_DIR, ".extracted")
     return(list(dir = env_dir, label = "RESULTS_DIR (explicit)", synthetic = FALSE))
   }
 
-  # ---- 2. A .zip dropped into prcc_data/ ------------------------------------
+  # ---- 2. A .zip dropped into export_data/ ------------------------------------
   # Non-recursive on purpose: a Strategus export contains its own nested zips
   # (e.g. CohortDiagnosticsModule/Results_*.zip), and a recursive listing would
   # offer one of those as a candidate archive once something has been
   # extracted here.
-  zips <- list.files(PRCC_DIR, pattern = "\\.zip$", full.names = TRUE)
+  zips <- list.files(EXPORT_DIR, pattern = "\\.zip$", full.names = TRUE)
   if (length(zips) > 0) {
     # Choose by the RUN TIMESTAMP IN THE FILENAME, not by file mtime.
-    # duke-prcc-deploy's export_results_for_review.R names its archives
+    # the site-deploy export step (e.g. export_results_for_review.R) names its archives
     #   <study>_strategusOutput_<cdm_id>_YYYYMMDD-HHMMSS.zip
     # so the filename records when the analysis actually ran. mtime records
     # when the file last landed on this machine -- re-copying or
@@ -135,12 +135,12 @@ EXTRACT_DIR <- file.path(PRCC_DIR, ".extracted")
       ord  <- order(stamps[stamped], decreasing = TRUE)
       zipf <- zips[stamped][ord][[1]]
       if (any(!stamped)) {
-        message("[report] Ignoring ", sum(!stamped), " archive(s) in ", PRCC_DIR,
+        message("[report] Ignoring ", sum(!stamped), " archive(s) in ", EXPORT_DIR,
                 "/ with no YYYYMMDD-HHMMSS run timestamp in the filename: ",
                 paste(basename(zips[!stamped]), collapse = ", "))
       }
       if (sum(stamped) > 1) {
-        message("[report] ", sum(stamped), " timestamped archive(s) in ", PRCC_DIR,
+        message("[report] ", sum(stamped), " timestamped archive(s) in ", EXPORT_DIR,
                 "/ — selecting the most recent RUN:")
         for (i in order(stamps[stamped], decreasing = TRUE)) {
           z <- zips[stamped][i]
@@ -178,18 +178,18 @@ EXTRACT_DIR <- file.path(PRCC_DIR, ".extracted")
         "Expected report_inputs/", if (length(SCORE_SUBDIRS)) paste0(" and ", SCORE_SUBDIRS[[1]], "/") else "",
         " (directly, or inside a single top-level folder). Found at the archive root:\n  ",
         paste(list.files(EXTRACT_DIR), collapse = "\n  "), "\n\n",
-        "Is this the export_results_for_review.R archive from duke-prcc-deploy?"
+        "Is this the export archive produced by your site-deploy repo?"
       )
     }
-    return(list(dir = found, label = paste0("PRCC archive ", basename(zipf)),
+    return(list(dir = found, label = paste0("export archive ", basename(zipf)),
                 synthetic = FALSE))
   }
 
-  # ---- 3. Hand-unzipped content in prcc_data/ -------------------------------
-  if (dir.exists(PRCC_DIR)) {
-    found <- .descend_to_results(PRCC_DIR)
+  # ---- 3. Hand-unzipped content in export_data/ -------------------------------
+  if (dir.exists(EXPORT_DIR)) {
+    found <- .descend_to_results(EXPORT_DIR)
     if (!is.null(found)) {
-      return(list(dir = found, label = paste0("unpacked contents of ", PRCC_DIR),
+      return(list(dir = found, label = paste0("unpacked contents of ", EXPORT_DIR),
                   synthetic = FALSE))
     }
   }
@@ -203,7 +203,7 @@ EXTRACT_DIR <- file.path(PRCC_DIR, ".extracted")
   stop(
     "No results found.\n\n",
     "Do one of:\n",
-    "  - copy a Duke PRCC export .zip into ", PRCC_DIR, "/ (created for you), or\n",
+    "  - copy an approved export .zip into ", EXPORT_DIR, "/ (created for you), or\n",
     "  - set RESULTS_DIR to a directory containing report_inputs/",
     if (length(SCORE_SUBDIRS)) paste0(" and ", SCORE_SUBDIRS[[1]], "/") else "", ", or\n",
     "  - run your analysis-core repo's pipeline so ", ANALYSIS_CORE_OUTPUT_DIR,
@@ -211,13 +211,13 @@ EXTRACT_DIR <- file.path(PRCC_DIR, ".extracted")
   )
 }
 
-if (!dir.exists(PRCC_DIR)) dir.create(PRCC_DIR, showWarnings = FALSE)
+if (!dir.exists(EXPORT_DIR)) dir.create(EXPORT_DIR, showWarnings = FALSE)
 
 src         <- .resolve_source()
 results_dir <- src$dir
 
 # Default output location. Writing next to the results is right for a
-# directory you control, but NOT for prcc_data/.extracted/ -- that is a
+# directory you control, but NOT for export_data/.extracted/ -- that is a
 # working copy this script deletes and re-creates whenever the archive
 # changes, so a report written there is destroyed by the next run with a new
 # export. Renders from an archive therefore default to reports/ instead.
@@ -231,17 +231,17 @@ output_dir     <- Sys.getenv("REPORT_OUTPUT_DIR", unset = default_output)
 if (!dir.exists(output_dir)) dir.create(output_dir, recursive = TRUE, showWarnings = FALSE)
 
 # Announce the data source unmissably. Rendering synthetic numbers while
-# believing they are real Duke results is the expensive mistake here, and it
+# believing they are real results is the expensive mistake here, and it
 # is silent unless something says so out loud.
 bar <- strrep("=", 78)
 message("\n", bar)
 if (isTRUE(src$synthetic)) {
-  message("  DATA SOURCE: SYNTHETIC (development data — NOT a Duke PRCC result)")
+  message("  DATA SOURCE: SYNTHETIC (development data — NOT a real result)")
   message("  ", src$label)
   message("  ", results_dir)
   message("")
-  message("  To render real Duke results, copy the approved PRCC export .zip")
-  message("  into ", PRCC_DIR, "/ and re-run this script.")
+  message("  To render real results, copy the approved export .zip")
+  message("  into ", EXPORT_DIR, "/ and re-run this script.")
 } else {
   message("  DATA SOURCE: ", src$label)
   message("  ", normalizePath(results_dir, mustWork = FALSE))

@@ -41,7 +41,7 @@ GenerateReport.R           entry point — resolves its data source automaticall
 config.R                   reads report_inputs/_report_config.yaml (no study_params.yaml here)
 R/report_dispatch.R        TODO [STUDY] stub — your report composition goes here
 R/report_helpers.R         TODO [STUDY] stub — your study-specific table/figure builders
-prcc_data/README.md        Duke PRCC export drop-zone (gitignored except this file)
+export_data/README.md       Secure-environment export drop-zone (gitignored except this file)
 CHECKLIST.md               new report-repo (Path A) / extraction from an existing repo (Path B)
 CLAUDE.md                  local-wrapper AI instructions — rewrite after creating a repo from this
 renv.lock                  pinned to omop-report-toolkit@<sha>, plus officer/flextable/ggplot2/yaml
@@ -98,7 +98,7 @@ in having its `TODO [STUDY]` markers resolved:
   `renv::snapshot()`.
 - **Push to your own branch**, then open a PR into `main`. Never push to
   `main`, never to another collaborator's branch.
-- **No PHI on disk.** `prcc_data/`, `output/`, `results/`, `reports/`, and
+- **No PHI on disk.** `export_data/`, `output/`, `results/`, `reports/`, and
   `*.docx` are all gitignored.
 - **Announce the data source loudly.** A synthetic render must say so on
   every run — silently believing synthetic numbers are a real result is the

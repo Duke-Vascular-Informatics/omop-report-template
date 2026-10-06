@@ -15,11 +15,11 @@ renv/staging/
 
 # Rendered reports + copied-in results — this repo renders, it does not store.
 # Which is which, because three similar names is otherwise confusing:
-#   reports/   WHERE RENDERS GO when the source is an extracted PRCC archive.
+#   reports/   WHERE RENDERS GO when the source is an extracted export archive.
 #              This is the one you want.
 #   output/    legacy default from before reports/ existed (a render used to
 #              land next to its results, which for an archive meant inside
-#              prcc_data/.extracted/ — the directory the next render deletes).
+#              export_data/.extracted/ — the directory the next render deletes).
 #              Nothing writes here now; safe to delete if you still have one.
 #   results/   vestigial; nothing in this repo has ever written here. Kept
 #              ignored only so a hand-copied results directory can't be
@@ -29,13 +29,13 @@ results/
 reports/
 *.docx
 
-# Duke PRCC export drop-zone. Copy an approved export .zip in here and
+# Secure-environment export drop-zone. Copy an approved export .zip in here and
 # GenerateReport.R renders from it instead of the synthetic dev data (see that
 # script's header). NEVER commit anything from this directory: it holds real
-# Duke results, and the archive is only aggregate because the export step made
+# results, and the archive is only aggregate because the export step made
 # it so -- that is not a property this repo can enforce after the fact.
 # The README placeholder is the one tracked exception.
-prcc_data/*
-!prcc_data/README.md
+export_data/*
+!export_data/README.md
 
 .DS_Store

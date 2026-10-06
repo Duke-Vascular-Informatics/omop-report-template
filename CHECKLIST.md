@@ -32,7 +32,7 @@ dependency (extract in the analysis repo, render here).
       run, pinned to a commit — never a branch — and the `renv.lock` diff
       hand-verified (not a blind `renv::snapshot()`; see that package's
       README)
-- [ ] `prcc_data/README.md` reviewed — do not commit anything else in that
+- [ ] `export_data/README.md` reviewed — do not commit anything else in that
       directory
 - [ ] `Rscript GenerateReport.R` produces a `.docx` from the synthetic
       dev-container run of `<study>` before anything real is rendered
