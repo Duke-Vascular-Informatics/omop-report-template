@@ -25,6 +25,7 @@ authors:
     # CFF 1.2.0 does not support multiple affiliations per author entry.
 repository-code: "https://github.com/Duke-Vascular-Informatics/omop-report-template"
 license: GPL-2.0-only
+doi: 10.5281/zenodo.23213932
 date-released: "2026-10-07"
 keywords:
   - OMOP CDM
