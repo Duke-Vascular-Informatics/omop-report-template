@@ -1,5 +1,7 @@
 # omop-report-template
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23213932.svg)](https://doi.org/10.5281/zenodo.23213932)
+
 GitHub template repository for a **bucket-3b report repo** — one study's Word
 manuscript report composition, rendered from result artifacts only, in a
 [charon](https://github.com/Duke-Vascular-Informatics/charon)-based workspace.
