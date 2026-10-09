@@ -7,8 +7,8 @@
 # Renders from result artifacts only. No database connection, no VPN, no
 # credentials — this script must remain runnable on a laptop with nothing but
 # a clone of this repo and a results directory copied over (e.g. an export
-# archive from your secure analytic environment, or a local Strategus/synthea-omop-template run of your analysis-core
-# repo). See charon's README ("Multi-Repo Analysis Pipeline") for why
+# archive from your secure analytic environment, or a local Strategus run of your analysis-core repo
+# against a synthetic dataset). See charon's README ("Multi-Repo Analysis Pipeline") for why
 # this repo exists separately from the analysis-core repo (bucket 2).
 #
 # WHERE THE DATA COMES FROM — resolved in this order, first match wins:
@@ -55,8 +55,8 @@
 if (file.exists("renv/activate.R")) source("renv/activate.R")
 
 # TODO [STUDY]: point this at your sibling analysis-core repo's output/
-# folder (the repo built from strategus-study-template or
-# synthea-omop-template). Keeping this a plain relative path — not an env
+# folder (the repo built from strategus-study-template; analysis never lives in a
+# synthea-omop-template -synth repo, which only generates data). Keeping this a plain relative path — not an env
 # var — matches the assumption that the two repos are cloned as siblings
 # inside the same workspace folder.
 ANALYSIS_CORE_OUTPUT_DIR <- file.path("..", "REPLACE_WITH_ANALYSIS_CORE_REPO", "output")
